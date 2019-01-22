@@ -1,0 +1,48 @@
+# 默认使用配置
+spring:
+  application:
+    name: zuul-server
+  servlet:
+    multipart:
+      max-file-size: 20Mb
+      max-request-size: 20Mb
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+ribbon:
+  ConnectTimeout: 60000
+  SocketTimeout: 60000
+  ReadTimeout: 60000
+  MaxAutoRetries: 0 #对第一次请求的服务的重试次数
+  MaxAutoRetriesNextServer: 0 #要重试的下一个服务的最大数量（不包括第一个服务）
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+      maximumSize: 50
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            interruptOnTimeout: false
+            timeoutInMilliseconds: 60000
+
+zuul:
+  routes:
+    api-goods:
+      path: /demo/**
+      serviceId: demo-service
+  prefix: /api
+
